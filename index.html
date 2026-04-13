@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Millions — The Ultimate Pub Quiz App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body {
+            background: #070B1E;
+            color: #CBD5E1;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(7, 11, 30, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(245, 197, 24, 0.1);
+            padding: 16px 0;
+        }
+        .nav-inner {
+            max-width: 900px; margin: 0 auto; padding: 0 24px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-brand {
+            font-size: 20px; font-weight: 800; color: #F5C518; text-decoration: none;
+        }
+        .nav-links a {
+            margin-left: 28px; color: #94A3B8; text-decoration: none;
+            font-size: 14px; font-weight: 500; transition: color 0.2s;
+        }
+        .nav-links a:hover { color: #F5C518; }
+
+        /* Container */
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+        /* Hero */
+        .hero { padding: 160px 0 100px; text-align: center; }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(245, 197, 24, 0.1);
+            border: 1px solid rgba(245, 197, 24, 0.2);
+            color: #F5C518; font-size: 13px; font-weight: 600;
+            padding: 6px 16px; border-radius: 50px; margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: clamp(36px, 7vw, 56px); font-weight: 800;
+            color: #FFFFFF; line-height: 1.1; margin-bottom: 20px;
+        }
+        .hero h1 span { color: #F5C518; }
+        .hero p {
+            font-size: 18px; color: #94A3B8; max-width: 550px;
+            margin: 0 auto 40px; line-height: 1.6;
+        }
+        .hero-cta {
+            display: inline-block; background: #F5C518; color: #070B1E;
+            font-weight: 700; font-size: 16px; padding: 14px 36px;
+            border-radius: 12px; text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(245, 197, 24, 0.3);
+        }
+
+        /* Features */
+        .features { padding: 80px 0; }
+        .section-title {
+            font-size: 28px; font-weight: 700; color: #FFFFFF;
+            margin-bottom: 48px; text-align: center;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+        .feature-card {
+            background: #0D1230; border: 1px solid #1A2050;
+            border-radius: 16px; padding: 28px; transition: border-color 0.3s;
+        }
+        .feature-card:hover { border-color: rgba(245, 197, 24, 0.3); }
+        .feature-icon { font-size: 32px; margin-bottom: 16px; }
+        .feature-card h3 {
+            font-size: 18px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;
+        }
+        .feature-card p { font-size: 14px; color: #94A3B8; line-height: 1.6; }
+
+        /* Pricing */
+        .pricing { padding: 80px 0; }
+        .pricing-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px; max-width: 650px; margin: 0 auto;
+        }
+        .pricing-card {
+            background: #0D1230; border: 1px solid #1A2050;
+            border-radius: 16px; padding: 32px; text-align: center;
+        }
+        .pricing-card.featured {
+            border-color: #F5C518;
+            box-shadow: 0 0 40px rgba(245, 197, 24, 0.08);
+        }
+        .pricing-card h3 {
+            color: #FFFFFF; font-size: 22px; font-weight: 700; margin-bottom: 8px;
+        }
+        .pricing-card .price {
+            font-size: 32px; font-weight: 800; color: #F5C518; margin-bottom: 20px;
+        }
+        .pricing-card .price span { font-size: 14px; font-weight: 500; color: #64748B; }
+        .pricing-card ul {
+            list-style: none; text-align: left; padding: 0;
+        }
+        .pricing-card ul li {
+            padding: 8px 0; font-size: 14px; color: #94A3B8;
+            border-bottom: 1px solid #1A2050;
+        }
+        .pricing-card ul li:last-child { border-bottom: none; }
+        .pricing-card ul li::before { content: "✓ "; color: #F5C518; font-weight: 700; }
+
+        /* Divider */
+        .divider { border: none; border-top: 1px solid #1A2050; margin: 0; }
+
+        /* Support */
+        .support { padding: 80px 0; }
+        .support-contact {
+            background: #0D1230; border: 1px solid #1A2050;
+            border-radius: 16px; padding: 32px; text-align: center; margin-bottom: 48px;
+        }
+        .support-contact h3 { color: #FFFFFF; font-size: 20px; margin-bottom: 12px; }
+        .support-contact a {
+            color: #F5C518; font-weight: 600; text-decoration: none;
+        }
+        .support-contact a:hover { text-decoration: underline; }
+        .faq-heading {
+            color: #FFFFFF; font-size: 20px; font-weight: 600; margin-bottom: 24px;
+        }
+        .faq-item {
+            background: #0D1230; border: 1px solid #1A2050;
+            border-radius: 12px; padding: 24px; margin-bottom: 16px;
+        }
+        .faq-item h4 { color: #FFFFFF; font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+        .faq-item p { color: #94A3B8; font-size: 14px; }
+
+        /* Legal */
+        .legal { padding: 80px 0; }
+        .legal-updated {
+            color: #64748B; font-size: 14px; margin-bottom: 32px; text-align: center;
+        }
+        .legal-section { margin-bottom: 32px; }
+        .legal-section h3 {
+            color: #FFFFFF; font-size: 18px; font-weight: 600; margin-bottom: 10px;
+        }
+        .legal-section p { color: #94A3B8; font-size: 15px; line-height: 1.7; }
+        .legal-section a { color: #F5C518; text-decoration: none; }
+        .legal-section a:hover { text-decoration: underline; }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #1A2050; padding: 40px 0; text-align: center;
+        }
+        footer p { color: #4B5563; font-size: 13px; }
+        footer a { color: #64748B; text-decoration: none; }
+        footer a:hover { color: #F5C518; }
+        .footer-links { margin-bottom: 16px; }
+        .footer-links a { margin: 0 16px; font-size: 14px; }
+
+        @media (max-width: 600px) {
+            .nav-links a { margin-left: 16px; font-size: 13px; }
+            .hero { padding: 130px 0 60px; }
+            .features, .pricing, .support, .legal { padding: 60px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="nav-brand">Quiz Millions</a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#support">Support</a>
+                <a href="#privacy">Privacy</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-badge">🎯 New questions added weekly</div>
+            <h1>The Ultimate<br><span>Pub Quiz</span> App</h1>
+            <p>Play the classic millionaire format solo or host a real-time multiplayer quiz for your group. Fresh questions every week. No gimmicks.</p>
+            <!-- Replace # with your App Store link once live: https://apps.apple.com/app/idYOURAPPID -->
+            <a href="#" class="hero-cta">Download on the App Store</a>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Why Quiz Millions</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Classic Money Ladder</h3>
+                    <p>15 questions from easy to brutal. Checkpoints lock in your progress. Lifelines keep you alive. Walk away or risk it all.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Multiplayer Pub Quiz</h3>
+                    <p>One person hosts. Everyone joins with a code or QR scan. Questions hit all screens at once. Fastest correct answer wins.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Fresh Every Week</h3>
+                    <p>New questions on current topics added weekly. Thousands of questions and growing. You'll never see the same set twice.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>No Gimmicks</h3>
+                    <p>No energy bars. No loot boxes. No lives. No forced ads. Just a straight quiz game that respects your time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Simple Pricing</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Free</h3>
+                    <div class="price">$0</div>
+                    <ul>
+                        <li>Join any multiplayer game</li>
+                        <li>1 solo game per month</li>
+                        <li>Full leaderboard access</li>
+                    </ul>
+                </div>
+                <div class="pricing-card featured">
+                    <h3>Premium</h3>
+                    <div class="price">Monthly or Yearly <span></span></div>
+                    <ul>
+                        <li>Unlimited solo games</li>
+                        <li>Host multiplayer rooms</li>
+                        <li>Join any multiplayer game</li>
+                        <li>Full leaderboard access</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider"-->
+
+    <section class="support" id="support">
+        <div class="container">
+            <h2 class="section-title">Support</h2>
+
+            <div class="support-contact">
+                <h3>Need help?</h3>
+                <!-- REPLACE with your actual support email -->
+                <p>Email us at <a href="mailto:quizmillionsapp@gmail.com">quizmillionsapp@gmail.com</a> and we'll get back to you as soon as we can.</p>
+            </div>
+
+            <h3 class="faq-heading">Frequently Asked Questions</h3>
+
+            <div class="faq-item">
+                <h4>How do I restore my purchase?</h4>
+                <p>Open the app, go to Settings, and tap "Restore Purchases." Your premium subscription will be restored automatically if you have an active subscription linked to your Apple ID or Google account.</p>
+            </div>
+            <div class="faq-item">
+                <h4>How do I host a multiplayer game?</h4>
+                <p>Premium subscribers can create a multiplayer room from the home screen. Once created, share the room code or QR code with your group. Players join by entering the code or scanning it.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Can I play for free?</h4>
+                <p>Yes. Free players can join any multiplayer game and play one solo game per calendar month. Premium unlocks unlimited solo play and the ability to host.</p>
+            </div>
+            <div class="faq-item">
+                <h4>How do I cancel my subscription?</h4>
+                <p>Subscriptions are managed through your device's app store. On iOS, go to Settings → your name → Subscriptions. On Android, open the Google Play Store → Subscriptions.</p>
+            </div>
+            <div class="faq-item">
+                <h4>How do I delete my account?</h4>
+                <p>You can delete your account from the Settings screen within the app. This will remove your account data, game history, and leaderboard entries.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Is my money real?</h4>
+                <p>No. All scores, winnings, rankings, and in-game values are virtual gameplay values only. Nothing is redeemable for real money.</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <section class="legal" id="privacy">
+        <div class="container">
+            <h2 class="section-title">Privacy Policy</h2>
+            <p class="legal-updated">Last updated: April 2026</p>
+
+            <div class="legal-section">
+                <h3>Introduction</h3>
+                <p>Quiz Millions ("the app") is developed and operated by Nuno Ricardo Moura Fontes. This policy describes what information the app collects, how it is used, and what choices you have.</p>
+            </div>
+            <div class="legal-section">
+                <h3>What We Collect</h3>
+                <p>Depending on how you use the app, we may store your account identifier, display name, avatar preference, subscription status, game results, leaderboard statistics, and multiplayer room participation data. If you sign in with Apple, Google, or email, your authentication credentials are handled by the respective provider.</p>
+            </div>
+            <div class="legal-section">
+                <h3>Gameplay Data</h3>
+                <p>The app records gameplay data including completed games, answers given, scores, rankings, and question-level performance metrics. This data is used to run the game, maintain leaderboards, prevent cheating, and improve question quality over time.</p>
+            </div>
+            <div class="legal-section">
+                <h3>Multiplayer Data</h3>
+                <p>When you join a multiplayer room, your display name, avatar, answers, score, and standings are visible to other players in that room as part of the game experience.</p>
+            </div>
+            <div class="legal-section">
+                <h3>Subscriptions</h3>
+                <p>If you purchase a premium subscription, the transaction is processed by Apple or Google through their respective app store. We receive confirmation of your subscription status to unlock premium features but do not have access to your payment details.</p>
+            </div>
+            <div class="legal-section">
+                <h3>Third-Party Services</h3>
+                <p>The app uses third-party infrastructure for authentication, database storage, real-time multiplayer, and subscription management. These services process data on our behalf to provide app functionality. We do not sell your personal data to third parties.</p>
+            </div>
+            <div class="legal-section">
+                <h3>Data Storage</h3>
+                <p>Your data is stored on cloud infrastructure. We take reasonable measures to protect your information, but no method of electronic storage is completely secure.</p>
+            </div>
+            <div class="legal-section">
+                <h3>Your Choices</h3>
+                <p>You can stop using the app at any time. If you use the account deletion feature in the app, your account-related data will be removed, subject to any technical, fraud-prevention, billing, or legal retention requirements.</p>
+            </div>
+            <div class="legal-section">
+                <h3>Children</h3>
+                <p>The app is not directed at children under 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal data, please contact us so we can take appropriate action.</p>
+            </div>
+            <div class="legal-section">
+                <h3>Changes to This Policy</h3>
+                <p>This policy may be updated as the app evolves. Continued use of the app after changes take effect means the updated policy applies to you.</p>
+            </div>
+            <div class="legal-section">
+                <h3>Contact</h3>
+                <!-- REPLACE with your actual support email -->
+                <p>If you have questions about this policy or your data, email us at <a href="mailto:quizmillionsapp@gmail.com">quizmillionsapp@gmail.com</a>.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#support">Support</a>
+                <a href="#privacy">Privacy</a>
+            </div>
+            <p>&copy; 2026 Nuno Ricardo Moura Fontes. All rights reserved.</p>
+            <p style="margin-top: 8px;">Quiz Millions is not affiliated with or endorsed by the "Who Wants to Be a Millionaire" television programme or its rights holders.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
